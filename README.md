@@ -24,7 +24,22 @@ https://demo.t-php.fr/fdj-scraper/
 ![Screenshot 3](img/screen3.png)
 
 ## Installation
+
+### Basic
+
 1. Download script
 2. Unzip the package
 3. Transfer on your server (local or online)
 4. It's finish !
+
+### Docker
+1. Download project
+2. Unzip the package
+3. Install docker on your computer / server if you don't have it
+4. launch the server :
+```shell
+$ docker-compose up -d
+```
+5. Go to http://localhost
+
+You can also change the port in docker-compose.yml, replace "80:80" by "xx:80"

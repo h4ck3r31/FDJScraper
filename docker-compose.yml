@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  fdj-scraper:
+    build: ./docker
+    container_name: fdj_scraper
+    ports:
+      - "80:80"
+    volumes:
+      - "./docker/config/apache2/sites-enabled:/etc/apache2/sites-enabled"
+      - "./:/var/www/html"
