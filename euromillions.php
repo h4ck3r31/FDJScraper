@@ -1,4 +1,9 @@
 <?php
+
+use Provider\EuroMillionProvider;
+
+require __DIR__ . '/Provider/EuroMillionProvider.php';
+
 //SEO
 $seo['title'] = "Derniers Résultats EuroMillions";
 $seo['meta_description'] = "";
@@ -6,40 +11,29 @@ $seo['meta_description'] = "";
 include ('header.php');
 //Define URL FDJ to scrap
 $urlhn = "https://www.fdj.fr/jeux/jeux-de-tirage/euromillions/resultats";
-//Identify elements to scrap
-$input = @file_get_contents($urlhn) or die("Impossible to get : $urlhn");
-$getDate = '<h3 class="dateTirage mt20 fl">(.*)<\/h3>';
-$getNumbers = '<p class="euro_num">(.*)<\/p>';
-$getChance = '<p class="euro_num_c">(.*)<\/p>';
-$getMyMillion = '<p class="tirage_my_million"><span>(.*)<\/span><\/p>';
-$getGains = '<table class="tableErgo" cellspacing="0">(.*)<\/table>';
+
+$provider = new EuroMillionProvider();
+$euromillion = $provider->getData();
+
 ?>
 
 <main role="main">
     <section class="jumbotron text-center">
         <div class="container">
             <h1 class="jumbotron-heading text-uppercase">Derniers Résultats EuroMillions</h1>
-            <?php if(preg_match_all("/$getNumbers/siU", $input, $numbers, PREG_SET_ORDER)
-                AND (preg_match_all("/$getDate/siU", $input, $date, PREG_SET_ORDER))
-                AND (preg_match_all("/$getChance/siU", $input, $chance, PREG_SET_ORDER))
-                AND (preg_match_all("/$getMyMillion/siU", $input, $myMillion, PREG_SET_ORDER))) :
-                ?>
-
-                <p><i class="fa fa-calendar"></i> <?= utf8_encode($date[0][1]); ?>  </p>
+                <p><i class="fa fa-calendar"></i> <?= $euromillion->getDate()->format('d/m/Y') ?>  </p>
 
                 <p>
-                    <span class="btn btn-lg btn-dark rounded"><?= $numbers[0][1]; ?></span>
-                    <span class="btn btn-lg btn-dark rounded"><?= $numbers[1][1]; ?></span>
-                    <span class="btn btn-lg btn-dark rounded"><?= $numbers[2][1]; ?></span>
-                    <span class="btn btn-lg btn-dark rounded"><?= $numbers[3][1]; ?></span>
-                    <span class="btn btn-lg btn-dark rounded"><?= $numbers[4][1]; ?></span>
-                    <span class="btn btn-lg btn-warning rounded"><?= $chance[0][1]; ?></span>
-                    <span class="btn btn-lg btn-warning rounded"><?= $chance[1][1]; ?></span>
+                    <?php foreach ($euromillion->getNumbers() as $number): ?>
+                        <span class="btn btn-lg btn-dark rounded"><?= $number; ?></span>
+                    <?php endforeach; ?>
+                    <?php foreach ($euromillion->getStars() as $star): ?>
+                         <span class="btn btn-lg btn-warning rounded"><?= $star; ?></span>
+                    <?php endforeach; ?>
                 </p>
 
                 <h3><small><i class="fa fa-trophy"></i> MY MYLLION</small></h3>
-                <h3><span class="badge badge-dark"><?= $myMillion[0][1]; ?></span></h3>
-            <?php endif; ?>
+                <h3><span class="badge badge-dark"><?= $euromillion->getMyMillion(); ?></span></h3>
         </div>
     </section>
 
@@ -52,7 +46,7 @@ $getGains = '<table class="tableErgo" cellspacing="0">(.*)<\/table>';
                             Résultats EuroMillions
                         </div>
                         <div class="card-body">
-                            <?php if(preg_match_all("/$getGains/siU", $input, $gains, PREG_SET_ORDER)): ?>
+                            <?php if(true): ?>
                                 <div class="table-responsive table-striped table-hover">
                                     <table class="table" cellspacing="0">
                                         <?=
@@ -65,7 +59,7 @@ $getGains = '<table class="tableErgo" cellspacing="0">(.*)<\/table>';
                                                 '<i class="fa fa-star"></i> ',
                                                 '<i class="fa fa-star"></i> '
                                             ),
-                                            $gains[0][1]
+                                            "123456"
                                         ); ?>
                                     </table>
                                 </div>
