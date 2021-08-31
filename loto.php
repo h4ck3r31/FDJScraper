@@ -47,7 +47,7 @@ $loto = $provider->getData();
                             <?php if(true): ?>
                                 <div class="table-responsive table-striped table-hover">
                                     <table class="table" cellspacing="0">
-                                        <?= "123456" ?>
+                                        <?= $loto->getWinnerTable() ?>
                                     </table>
                                 </div>
                             <?php endif; ?>

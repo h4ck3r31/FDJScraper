@@ -59,7 +59,7 @@ $euromillion = $provider->getData();
                                                 '<i class="fa fa-star"></i> ',
                                                 '<i class="fa fa-star"></i> '
                                             ),
-                                            "123456"
+                                            $euromillion->getWinnerTable()
                                         ); ?>
                                     </table>
                                 </div>

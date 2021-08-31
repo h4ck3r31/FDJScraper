@@ -42,11 +42,17 @@ class LotoProvider
             throw new RuntimeException("Unable to parse jocker number");
         }
 
+        $table = $this->parseTable($source);
+        if (null === $table) {
+            throw new RuntimeException("Unable to parse winners tab");
+        }
+
         return new \Entity\Loto(
             $date,
             $numbers,
             $luckyNumbers,
-            $jocker
+            $jocker,
+            $table
         );
     }
 
@@ -167,5 +173,20 @@ class LotoProvider
 
         $dateTime = new DateTime(sprintf('%s-%s-%s', $dateExploded[2], $dateExploded[1], $dateExploded[0]));
         return $dateTime;
+    }
+
+    private function parseTable($source)
+    {
+        $tmp = explode('<table class="prizes-table_container">', $source);
+        if (count($tmp) < 2) {
+            return null;
+        }
+        $tmp = explode('</table>', $tmp[1]);
+        if (count($tmp) < 2) {
+            return null;
+        }
+
+        $table = $tmp[0];
+        return $table;
     }
 }

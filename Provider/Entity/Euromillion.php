@@ -18,19 +18,24 @@ final class Euromillion
     /** @var string */
     private $myMillion;
 
+    /** @var string */
+    private $winnerTable;
+
     /**
      * Euromillion constructor.
      * @param DateTimeInterface $date
      * @param int[] $numbers
      * @param int[] $stars
      * @param string $myMillion
+     * @param string $winnerTable
      */
-    public function __construct(DateTimeInterface $date, array $numbers, array $stars, $myMillion)
+    public function __construct(DateTimeInterface $date, array $numbers, array $stars, $myMillion, $winnerTable)
     {
         $this->date = $date;
         $this->numbers = $numbers;
         $this->stars = $stars;
         $this->myMillion = $myMillion;
+        $this->winnerTable = $winnerTable;
     }
 
     /**
@@ -63,5 +68,13 @@ final class Euromillion
     public function getMyMillion()
     {
         return $this->myMillion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWinnerTable()
+    {
+        return $this->winnerTable;
     }
 }

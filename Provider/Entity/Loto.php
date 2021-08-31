@@ -18,19 +18,24 @@ final class Loto
     /** @var string */
     private $jocker;
 
+    /** @var string */
+    private $winnerTable;
+
     /**
      * Loto constructor.
      * @param DateTimeInterface $date
      * @param int[] $numbers
      * @param int[] $luckyNumbers
      * @param string $jocker
+     * @param string $winnerTable
      */
-    public function __construct(DateTimeInterface $date, array $numbers, array $luckyNumbers, $jocker)
+    public function __construct(DateTimeInterface $date, array $numbers, array $luckyNumbers, $jocker, $winnerTable)
     {
         $this->date = $date;
         $this->numbers = $numbers;
         $this->luckyNumbers = $luckyNumbers;
         $this->jocker = $jocker;
+        $this->winnerTable = $winnerTable;
     }
 
     /**
@@ -63,5 +68,13 @@ final class Loto
     public function getJocker()
     {
         return $this->jocker;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWinnerTable()
+    {
+        return $this->winnerTable;
     }
 }

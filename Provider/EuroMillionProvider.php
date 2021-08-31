@@ -43,11 +43,17 @@ class EuroMillionProvider
             throw new RuntimeException("Unable to parse MyMillion number");
         }
 
+        $table = $this->parseTable($source);
+        if (null === $table) {
+            throw new RuntimeException("Unable to parse winners tab");
+        }
+
         return new Euromillion(
             $date,
             $numbers,
             $stars,
-            $myMillion
+            $myMillion,
+            $table
         );
     }
 
@@ -168,5 +174,24 @@ class EuroMillionProvider
 
         $dateTime = new DateTime(sprintf('%s-%s-%s', $dateExploded[2], $dateExploded[1], $dateExploded[0]));
         return $dateTime;
+    }
+
+    /**
+     * @param string $source
+     * @return string|null
+     */
+    private function parseTable($source)
+    {
+        $tmp = explode('<table class="prizes-table_container">', $source);
+        if (count($tmp) < 2) {
+            return null;
+        }
+        $tmp = explode('</table>', $tmp[1]);
+        if (count($tmp) < 2) {
+            return null;
+        }
+
+        $table = $tmp[0];
+        return $table;
     }
 }
